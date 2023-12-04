@@ -22,16 +22,12 @@ services:
   frontend:
     image: notilttoday1/kittygram_frontend
     env_file: .env 
-    command: cp -r /app/build/. /static/ # Еще нужна команда сбора статики?
+    command: cp -r /app/build/. /static/
     volumes:
       - static:/static
   gateway:
     image: notilttoday1/kittygram_gateway
     env_file: .env
-    # Ключ ports устанавливает
-    # перенаправление всех запросов с порта 9000 хоста
-    # на порт 80 контейнера.
-    # А тут подключаем volume со статикой к gateway
     ports:
       - 9000:80
     volumes:
