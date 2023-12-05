@@ -5,7 +5,17 @@ from pathlib import Path
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
+'''
+Данила, если я использую объявляю переменную SECRET_KEY = os.getenv('SECRET_KEY'),
+то при тестах на GithubActions получаю ошибку:
+ File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/django/conf/__init__.py", line 90, in __getattr__
+    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+Проверял принтом, что значение переменной успешно импортируется из .env, в чем причина падения тестов не понимаю.
+На форумах пишут, это конфликт имен модуля и класса внутри Django.
+'''
+
 
 DEBUG = (True if os.getenv('DEBUG')=='True' else False)
 
