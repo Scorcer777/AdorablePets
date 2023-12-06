@@ -2,40 +2,16 @@
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
-'''
-Данила, если я использую объявляю переменную SECRET_KEY = os.getenv('SECRET_KEY'),
-то при тестах на GithubActions получаю ошибку:
- File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/django/conf/__init__.py", line 90, in __getattr__
-    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
-django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
-Проверял принтом, что значение переменной успешно импортируется из .env, в чем причина падения тестов не понимаю.
-На форумах пишут, это конфликт имен модуля и класса внутри Django.
+SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
 
-То же касается и остальных перменных, которые ты просишь убрать в .env. Возвращали None во время тестов:
-DEBUG = (True if os.getenv('DEBUG')=='True' else False)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
-Вернул их явное указание.
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-Содержимое моего файла .env:
-
-POSTGRES_DB=kittygram
-POSTGRES_USER=kittygram_user
-POSTGRES_PASSWORD=kittygram_password
-DB_NAME=kittygram
-DB_HOST=db
-DB_PORT=5432
-SECRET_KEY=django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$
-ALLOWED_HOSTS=['130.193.42.123', '127.0.0.1', 'localhost', 'kittygram.hopto.org']
-DEBUG=False
-'''
-
-DEBUG = False
-
-ALLOWED_HOSTS = ['130.193.42.123', '127.0.0.1', 'localhost', 'kittygram.hopto.org']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
